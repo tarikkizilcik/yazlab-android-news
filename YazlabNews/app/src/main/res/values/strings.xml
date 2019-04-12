@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Yazlab News</string>
+    <string name="url" translatable="false">http:/10.0.3.2:3000</string>
 </resources>
