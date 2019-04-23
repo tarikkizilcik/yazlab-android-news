@@ -12,6 +12,7 @@ import com.android.volley.toolbox.Volley
 import com.example.trkkz.yazlabnews.adapters.NewsAdapter
 import com.example.trkkz.yazlabnews.adapters.OnItemClickListener
 import com.example.trkkz.yazlabnews.data.News
+import com.example.trkkz.yazlabnews.data.NewsType
 import kotlinx.android.synthetic.main.activity_news.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -57,8 +58,11 @@ class NewsActivity : AppCompatActivity() {
             val author = jsonObject.getString("author")
             val title = jsonObject.getString("title")
             val body = jsonObject.getString("body")
+            val type = jsonObject.getString("type")
+            val createdAt = jsonObject.getLong("createdAt")
+            val updatedAt = jsonObject.getLong("updatedAt")
 
-            newsList.add(News(author, title, body))
+            newsList.add(News(author, title, body, NewsType.valueOf(type), createdAt, updatedAt))
             this@NewsActivity.runOnUiThread { newsAdapter.notifyDataSetChanged() }
         }
     }
