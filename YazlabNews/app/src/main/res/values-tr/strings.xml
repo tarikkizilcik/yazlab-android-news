@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Yazlab News</string>
+    <string name="num_views">Görüntülenme sayısı</string>
+    <string name="author">Yazar</string>
+    <string name="body">Gövde</string>
+    <string name="title">Başlık</string>
+</resources>
