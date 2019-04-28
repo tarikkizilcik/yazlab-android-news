@@ -29,6 +29,9 @@ class DetailsActivity : AppCompatActivity() {
         val type = intent.getStringExtra(News.EXTRA_TYPE)
         @Suppress("UNCHECKED_CAST")
         val image = intent.getSerializableExtra(News.EXTRA_IMAGE) as? Array<Byte> ?: return
+        val publicationDate = intent.getLongExtra(News.EXTRA_PUBLICATION_DATE, -1)
+        // TODO Show createdAt
+        @Suppress("UNUSED_VARIABLE")
         val createdAt = intent.getLongExtra(News.EXTRA_CREATED_AT, -1)
         // TODO Show updatedAt
         @Suppress("UNUSED_VARIABLE")
@@ -42,7 +45,7 @@ class DetailsActivity : AppCompatActivity() {
         val bmp = BitmapFactory.decodeByteArray(image.toByteArray(), 0, image.size)
         imageView.setImageBitmap(bmp)
 
-        textViewCreatedAt.text = Date(Timestamp(createdAt).time).toString()
+        textViewPublicationDate.text = Date(Timestamp(publicationDate).time).toString()
 
         buttonBack.setOnClickListener { finish() }
 

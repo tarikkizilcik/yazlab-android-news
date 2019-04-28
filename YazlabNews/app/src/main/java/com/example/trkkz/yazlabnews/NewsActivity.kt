@@ -76,6 +76,7 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener {
         intent.putExtra(News.EXTRA_BODY, newsList[position].body)
         intent.putExtra(News.EXTRA_TYPE, newsList[position].type)
         intent.putExtra(News.EXTRA_IMAGE, newsList[position].image)
+        intent.putExtra(News.EXTRA_PUBLICATION_DATE, newsList[position].publicationDate)
         intent.putExtra(News.EXTRA_CREATED_AT, newsList[position].createdAt)
         intent.putExtra(News.EXTRA_UPDATED_AT, newsList[position].updatedAt)
 
