@@ -5,4 +5,14 @@
     <string name="title">Title</string>
     <string name="body">Body</string>
     <string name="num_views">Number of views</string>
+    <string name="num_likes">Number of likes</string>
+    <string name="num_dislikes">Number of dislikes</string>
+    <string name="type">Type</string>
+    <string name="creadet_At">Creadet At</string>
+    <string name="back_button">Back</string>
+    <string name="cd_news_photo">News photo</string>
+    <string name="like_button">Like</string>
+    <string name="dislike_button">Dislike</string>
+    <string name="reset_button">Reset</string>
+    <string name="str_colon_num" translatable="false">%1$s: %2$d</string>
 </resources>

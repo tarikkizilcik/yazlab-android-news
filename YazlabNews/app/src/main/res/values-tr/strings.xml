@@ -3,6 +3,15 @@
     <string name="app_name">Yazlab News</string>
     <string name="num_views">Görüntülenme sayısı</string>
     <string name="author">Yazar</string>
-    <string name="body">Gövde</string>
+    <string name="body">İçerik</string>
     <string name="title">Başlık</string>
+    <string name="num_likes">Beğenme sayısı</string>
+    <string name="num_dislikes">Beğenmeme sayısı</string>
+    <string name="type">Tür</string>
+    <string name="creadet_At">Yayınlanma tarihi</string>
+    <string name="back_button">Geri</string>
+    <string name="cd_news_photo">Haber fotoğrafı</string>
+    <string name="like_button">Beğen</string>
+    <string name="dislike_button">Beğenme</string>
+    <string name="reset_button">Reset</string>
 </resources>

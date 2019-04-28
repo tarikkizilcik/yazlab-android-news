@@ -13,5 +13,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, NewsActivity::class.java)
         startActivity(intent)
         finish()
+
     }
 }
