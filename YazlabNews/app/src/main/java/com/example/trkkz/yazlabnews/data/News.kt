@@ -1,8 +1,9 @@
 package com.example.trkkz.yazlabnews.data
 
 class News(val author: String, val title: String, val body: String, val type: NewsType,
-           val image: Array<Byte>, val publicationDate: Long, val createdAt: Long, val updatedAt: Long) {
+           val image: Array<Byte>, val publicationDate: Long, val createdAt: Long, val updatedAt: Long, val _id: String) {
     companion object {
+        const val EXTRA_ID = "EXTRA_ID"
         const val EXTRA_AUTHOR = "EXTRA_AUTHOR"
         const val EXTRA_TITLE = "EXTRA_TITLE"
         const val EXTRA_BODY = "EXTRA_BODY"

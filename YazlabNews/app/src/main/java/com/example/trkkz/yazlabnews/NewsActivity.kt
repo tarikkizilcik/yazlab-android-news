@@ -39,7 +39,7 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
         typesAdapter.setOnItemClickListener(this)
 
         recyclerViewNews.apply {
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             layoutManager = LinearLayoutManager(this@NewsActivity)
             adapter = newsAdapter
         }
@@ -63,7 +63,7 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
         // Add all messages to the list in the response
         val gson = Gson()
 
-        val jsonArray = JSONArray(it.toString())
+        val jsonArray = JSONArray(it)
         for (jsonObject in jsonArray) {
             if (jsonObject !is JSONObject) continue
 
@@ -85,6 +85,7 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
     override fun onItemClick(position: Int, view: View) {
         val intent = Intent(this@NewsActivity, DetailsActivity::class.java)
 
+        intent.putExtra(News.EXTRA_ID, selectedNews[position]._id)
         intent.putExtra(News.EXTRA_AUTHOR, selectedNews[position].author)
         intent.putExtra(News.EXTRA_TITLE, selectedNews[position].title)
         intent.putExtra(News.EXTRA_BODY, selectedNews[position].body)

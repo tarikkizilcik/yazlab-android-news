@@ -4,25 +4,30 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.example.trkkz.yazlabnews.data.MyPreference
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.trkkz.yazlabnews.data.News
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_details.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.sql.Timestamp
 import java.util.*
 
 
 class DetailsActivity : AppCompatActivity() {
-    private var counterLike = 0
-    private var counterDisLike = 0
-    private var loginCount = 0
-    private lateinit var myPreference: MyPreference
+    private var isAlreadyLiked = false
+    private var isAlreadyDisliked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        myPreference = MyPreference(this)
+        postViewed()
 
+        val id = intent.getStringExtra(News.EXTRA_ID)
         val author = intent.getStringExtra(News.EXTRA_AUTHOR)
         val title = intent.getStringExtra(News.EXTRA_TITLE)
         val body = intent.getStringExtra(News.EXTRA_BODY)
@@ -49,36 +54,44 @@ class DetailsActivity : AppCompatActivity() {
 
         buttonBack.setOnClickListener { finish() }
 
-        loginCount = myPreference.getLoginCount()
-        loginCount++
-        myPreference.setLoginCount(loginCount)
-        textViewNumViews.text = getString(R.string.str_colon_num, getString(R.string.num_views), loginCount)
+        textViewNumViews.text = getString(R.string.str_colon_num, getString(R.string.num_views), 0)
 
         buttonLike.setOnClickListener(onClickLikeButton)
         buttonDislike.setOnClickListener(onClickDisLikeButton)
-        buttonReset.setOnClickListener(onClickResetButton)
     }
 
     private val onClickLikeButton = View.OnClickListener {
-        counterLike++
-
-        textViewNumLikes.text = getString(R.string.str_colon_num, getString(R.string.num_likes), counterLike)
+        textViewNumLikes.text = getString(R.string.str_colon_num, getString(R.string.num_likes), 0)
     }
 
     private val onClickDisLikeButton = View.OnClickListener {
-        counterDisLike++
-        textViewNumDislikes.text = getString(R.string.str_colon_num, getString(R.string.num_dislikes), counterDisLike)
+        textViewNumDislikes.text = getString(R.string.str_colon_num, getString(R.string.num_dislikes), 0)
 
     }
 
-    private val onClickResetButton = View.OnClickListener {
-        loginCount = 0
-        myPreference.setLoginCount(0)
-        textViewNumViews.text = getString(R.string.str_colon_num, getString(R.string.num_views), loginCount)
-        counterLike = 0
-        textViewNumLikes.text = getString(R.string.str_colon_num, getString(R.string.num_likes), counterLike)
-        counterDisLike = 0
-        textViewNumDislikes.text = getString(R.string.str_colon_num, getString(R.string.num_dislikes), counterDisLike)
+    private val responseListenerViewed = Response.Listener<String> {
+        val gson = Gson()
+
+        val jsonArray = JSONArray(it)
+        for (jsonObject in jsonArray) {
+            if (jsonObject !is JSONObject) continue
+
+            val news: News = gson.fromJson(jsonObject.toString(), News::class.java)
+        }
+    }
+
+    private val errorListenerViewed = Response.ErrorListener {
+
+    }
+
+    private fun postViewed() {
+        val queue = Volley.newRequestQueue(this)
+        val url = "${getString(R.string.url)}/api/news"
+        val stringRequest = StringRequest(Request.Method.GET, url,
+                responseListenerViewed,
+                errorListenerViewed)
+
+        queue.add(stringRequest)
     }
 }
 

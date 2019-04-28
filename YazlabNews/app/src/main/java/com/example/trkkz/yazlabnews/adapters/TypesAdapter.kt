@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.CheckBox
 import com.example.trkkz.yazlabnews.R
 import com.example.trkkz.yazlabnews.data.NewsType
 
@@ -13,7 +13,7 @@ class TypesAdapter(private val dataSet: List<NewsType>) : RecyclerView.Adapter<T
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val inflater = LayoutInflater.from(p0.context)
-        val listItem = inflater.inflate(R.layout.list_item_news, p0, false)
+        val listItem = inflater.inflate(R.layout.list_item_types, p0, false)
 
         return ViewHolder(listItem)
     }
@@ -33,12 +33,12 @@ class TypesAdapter(private val dataSet: List<NewsType>) : RecyclerView.Adapter<T
     }
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
-        private val checkBox: TextView = view.findViewById(R.id.checkBox)
+        private val checkBox: CheckBox = view.findViewById(R.id.checkBox)
 
         fun bind(type: NewsType) {
             checkBox.text = type.toString()
 
-            view.setOnClickListener(this)
+            checkBox.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
