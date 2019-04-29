@@ -8,7 +8,10 @@ class News(val author: String,
            val publicationDate: Long,
            val createdAt: Long,
            val updatedAt: Long,
-           val _id: String) {
+           val _id: String,
+           val likes: Int = 0,
+           val dislikes: Int = 0,
+           val views: Int = 0) {
     companion object {
         const val EXTRA_ID = "EXTRA_ID"
         const val EXTRA_AUTHOR = "EXTRA_AUTHOR"
