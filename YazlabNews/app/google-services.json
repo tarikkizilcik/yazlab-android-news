@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "414802865633",
+    "firebase_url": "https://yazlabnews.firebaseio.com",
+    "project_id": "yazlabnews",
+    "storage_bucket": "yazlabnews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:414802865633:android:5be64f5e552cd091",
+        "android_client_info": {
+          "package_name": "com.example.trkkz.yazlabnews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "414802865633-0jhmipf1djg38ag0v2aprdf497s11rf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trkkz.yazlabnews",
+            "certificate_hash": "46153ea11bde8eb689f6cb8126b47569ceeddb62"
+          }
+        },
+        {
+          "client_id": "414802865633-cv7lv1r6u72pgl9lgq0g2cs7tvu2t734.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbjI0CVzv843VoeNwP3lpCmOYF78B1Fas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "414802865633-cv7lv1r6u72pgl9lgq0g2cs7tvu2t734.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

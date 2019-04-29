@@ -35,12 +35,13 @@ class NewsAdapter(private val dataSet: List<News>) : RecyclerView.Adapter<NewsAd
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         private val textViewAuthor: TextView = view.findViewById(R.id.textViewAuthor)
         private val textViewTitle: TextView = view.findViewById(R.id.textViewTitle)
-        private val textViewBody: TextView = view.findViewById(R.id.textViewBody)
+        private val textViewType: TextView = view.findViewById(R.id.textViewType)
+
 
         fun bind(news: News) {
             textViewAuthor.text = news.author
             textViewTitle.text = news.title
-            textViewBody.text = news.body
+            textViewType.text = news.type
 
             view.setOnClickListener(this)
         }

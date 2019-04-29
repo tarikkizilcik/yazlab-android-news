@@ -23,10 +23,10 @@
         app:layout_constraintTop_toBottomOf="@id/textViewAuthor" />
 
     <TextView
-        android:id="@+id/textViewBody"
+        android:id="@+id/textViewType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/body"
+        android:text="@string/type"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
 
@@ -35,6 +35,6 @@
         android:layout_height="1dp"
         android:background="@color/colorPrimaryDark"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewBody" />
+        app:layout_constraintTop_toBottomOf="@id/textViewType" />
 
 </android.support.constraint.ConstraintLayout>
