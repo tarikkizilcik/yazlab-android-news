@@ -6,9 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import com.example.trkkz.yazlabnews.R
-import com.example.trkkz.yazlabnews.data.NewsType
 
-class TypesAdapter(private val dataSet: List<NewsType>) : RecyclerView.Adapter<TypesAdapter.ViewHolder>() {
+class TypesAdapter(private val dataSet: List<String>) : RecyclerView.Adapter<TypesAdapter.ViewHolder>() {
     private lateinit var onItemClickListener: OnCheckBoxClickListener
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -35,8 +34,8 @@ class TypesAdapter(private val dataSet: List<NewsType>) : RecyclerView.Adapter<T
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         private val checkBox: CheckBox = view.findViewById(R.id.checkBox)
 
-        fun bind(type: NewsType) {
-            checkBox.text = type.toString()
+        fun bind(type: String) {
+            checkBox.text = type
 
             checkBox.setOnClickListener(this)
         }

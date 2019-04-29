@@ -15,7 +15,6 @@ import com.example.trkkz.yazlabnews.adapters.OnCheckBoxClickListener
 import com.example.trkkz.yazlabnews.adapters.OnItemClickListener
 import com.example.trkkz.yazlabnews.adapters.TypesAdapter
 import com.example.trkkz.yazlabnews.data.News
-import com.example.trkkz.yazlabnews.data.NewsType
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news.*
 import org.json.JSONArray
@@ -26,10 +25,10 @@ private const val TAG = "NewsActivity"
 class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickListener {
     private val newsList = mutableListOf<News>()
     private val selectedNews = mutableListOf<News>()
+    private val newsTypes = mutableListOf<String>()
+    private val selectedTypes = newsTypes.toMutableList()
     private val newsAdapter = NewsAdapter(selectedNews)
-    private val types = NewsType.values().toList()
-    private val typesAdapter = TypesAdapter(types)
-    private val selectedTypes = mutableListOf<NewsType>()
+    private val typesAdapter = TypesAdapter(newsTypes)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,12 +50,19 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
         }
 
         val queue = Volley.newRequestQueue(this)
-        val url = "${getString(R.string.url)}/api/news"
-        val stringRequest = StringRequest(Request.Method.GET, url,
+        val newsUrl = "${getString(R.string.url)}/api/news"
+        val newsRequest = StringRequest(Request.Method.GET, newsUrl,
                 responseListenerGetNews,
                 errorListenerGetNews)
+        val newsTypesUrl = "${getString(R.string.url)}/api/news-types"
+        val newsTypesRequest = StringRequest(Request.Method.GET, newsTypesUrl,
+                responseListenerGetNewsTypes,
+                errorListenerGetNewsTypes)
 
-        queue.add(stringRequest)
+        queue.apply {
+            add(newsRequest)
+            add(newsTypesRequest)
+        }
     }
 
     private val responseListenerGetNews = Response.Listener<String> {
@@ -82,24 +88,47 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
         Log.e(TAG, it.localizedMessage)
     }
 
+    private val responseListenerGetNewsTypes = Response.Listener<String> {
+        val jsonArray = JSONArray(it)
+        for (jsonObject in jsonArray) {
+            if (jsonObject !is JSONObject) continue
+
+            val newsType = jsonObject.getString("name")
+            newsTypes.add(newsType)
+            selectedTypes.add(newsType)
+        }
+
+        this@NewsActivity.runOnUiThread {
+            typesAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private val errorListenerGetNewsTypes = Response.ErrorListener {
+        it.printStackTrace()
+        Log.e(TAG, it.localizedMessage)
+    }
+
     override fun onItemClick(position: Int, view: View) {
         val intent = Intent(this@NewsActivity, DetailsActivity::class.java)
 
-        intent.putExtra(News.EXTRA_ID, selectedNews[position]._id)
-        intent.putExtra(News.EXTRA_AUTHOR, selectedNews[position].author)
-        intent.putExtra(News.EXTRA_TITLE, selectedNews[position].title)
-        intent.putExtra(News.EXTRA_BODY, selectedNews[position].body)
-        intent.putExtra(News.EXTRA_TYPE, selectedNews[position].type)
-        intent.putExtra(News.EXTRA_IMAGE, selectedNews[position].image)
-        intent.putExtra(News.EXTRA_PUBLICATION_DATE, selectedNews[position].publicationDate)
-        intent.putExtra(News.EXTRA_CREATED_AT, selectedNews[position].createdAt)
-        intent.putExtra(News.EXTRA_UPDATED_AT, selectedNews[position].updatedAt)
+        val news = selectedNews[position]
+        intent.apply {
+            putExtra(News.EXTRA_ID, news._id)
+            putExtra(News.EXTRA_AUTHOR, news.author)
+            putExtra(News.EXTRA_TITLE, news.title)
+            putExtra(News.EXTRA_BODY, news.body)
+            putExtra(News.EXTRA_TYPE, news.type)
+            putExtra(News.EXTRA_IMAGE, news.image)
+            putExtra(News.EXTRA_PUBLICATION_DATE, news.publicationDate)
+            putExtra(News.EXTRA_CREATED_AT, news.createdAt)
+            putExtra(News.EXTRA_UPDATED_AT, news.updatedAt)
+        }
 
         startActivity(intent)
     }
 
     override fun onCheckBoxClick(position: Int, view: View) {
-        val type = types[position]
+        val type = newsTypes[position]
 
         if (selectedTypes.contains(type))
             selectedTypes.remove(type)
