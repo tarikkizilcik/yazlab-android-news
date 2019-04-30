@@ -11,6 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name=".services.NewsNotificationService"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="your.app.domain.NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
         <activity android:name=".DetailsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -21,5 +31,6 @@
         </activity>
         <activity android:name=".NewsActivity" />
     </application>
+
 
 </manifest>

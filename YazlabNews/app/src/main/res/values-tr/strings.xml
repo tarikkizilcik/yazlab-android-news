@@ -14,4 +14,5 @@
     <string name="like_button">Beğen</string>
     <string name="dislike_button">Beğenme</string>
     <string name="reset_button">Reset</string>
+    <string name="server_isnt_responding">Sunucu yanıt vermiyor</string>
 </resources>

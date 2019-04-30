@@ -15,4 +15,5 @@
     <string name="dislike_button">Dislike</string>
     <string name="reset_button">Reset</string>
     <string name="str_colon_num" translatable="false">%1$s: %2$d</string>
+    <string name="server_isnt_responding">Server is not responding</string>
 </resources>

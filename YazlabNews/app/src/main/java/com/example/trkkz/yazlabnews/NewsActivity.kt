@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -15,12 +15,11 @@ import com.example.trkkz.yazlabnews.adapters.OnCheckBoxClickListener
 import com.example.trkkz.yazlabnews.adapters.OnItemClickListener
 import com.example.trkkz.yazlabnews.adapters.TypesAdapter
 import com.example.trkkz.yazlabnews.data.News
+import com.example.trkkz.yazlabnews.services.NewsNotificationService
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_news.*
 import org.json.JSONArray
 import org.json.JSONObject
-
-private const val TAG = "NewsActivity"
 
 class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickListener {
     private val newsList = mutableListOf<News>()
@@ -81,11 +80,13 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
         this@NewsActivity.runOnUiThread {
             newsAdapter.notifyDataSetChanged()
         }
+
+        startService(Intent(this, NewsNotificationService::class.java))
     }
 
     private val errorListenerGetNews = Response.ErrorListener {
         it.printStackTrace()
-        Log.e(TAG, it.localizedMessage)
+        Toast.makeText(this@NewsActivity, R.string.server_isnt_responding, Toast.LENGTH_SHORT).show()
     }
 
     private val responseListenerGetNewsTypes = Response.Listener<String> {
@@ -105,7 +106,7 @@ class NewsActivity : AppCompatActivity(), OnItemClickListener, OnCheckBoxClickLi
 
     private val errorListenerGetNewsTypes = Response.ErrorListener {
         it.printStackTrace()
-        Log.e(TAG, it.localizedMessage)
+        Toast.makeText(this@NewsActivity, R.string.server_isnt_responding, Toast.LENGTH_SHORT).show()
     }
 
     override fun onItemClick(position: Int, view: View) {
