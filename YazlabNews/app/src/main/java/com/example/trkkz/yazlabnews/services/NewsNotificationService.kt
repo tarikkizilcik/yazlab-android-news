@@ -2,6 +2,7 @@ package com.example.trkkz.yazlabnews.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -17,7 +18,10 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.trkkz.yazlabnews.DetailsActivity
 import com.example.trkkz.yazlabnews.R
+import com.example.trkkz.yazlabnews.data.News
+import com.google.gson.Gson
 import org.json.JSONObject
 import java.util.*
 
@@ -32,6 +36,7 @@ class NewsNotificationService : Service() {
     private lateinit var queue: RequestQueue
     private lateinit var url: String
     private var timestamp = System.currentTimeMillis()
+    private val selectedNews = mutableListOf<News>()
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
@@ -92,12 +97,30 @@ class NewsNotificationService : Service() {
 
     private val responseListener = Response.Listener<JSONObject> {
         val jsonArray = it.getJSONArray("news")
+        val gson = Gson()
 
         for (i in 0 until jsonArray.length()) {
+            val news = gson.fromJson(jsonArray.getJSONObject(i).toString(), News::class.java)
+            val intent = Intent(this, DetailsActivity::class.java)
+            intent.apply {
+                putExtra(News.EXTRA_ID, news._id)
+                putExtra(News.EXTRA_AUTHOR, news.author)
+                putExtra(News.EXTRA_TITLE, news.title)
+                putExtra(News.EXTRA_BODY, news.body)
+                putExtra(News.EXTRA_TYPE, news.type)
+                putExtra(News.EXTRA_IMAGE, news.image)
+                putExtra(News.EXTRA_PUBLICATION_DATE, news.publicationDate)
+                putExtra(News.EXTRA_CREATED_AT, news.createdAt)
+                putExtra(News.EXTRA_UPDATED_AT, news.updatedAt)
+            }
+
+            val pendingIntent = PendingIntent.getActivity(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             val builder = NotificationCompat.Builder(applicationContext, TAG)
                     .setSmallIcon(R.drawable.ic_like)
                     .setContentTitle("Yeni Haber Eklendi!")
                     .setContentText(jsonArray.getJSONObject(i).getString("title"))
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
 //                .setStyle(NotificationCompat.BigTextStyle()
 //                        .bigText("Much longer text that cannot fit one line..."))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -105,6 +128,7 @@ class NewsNotificationService : Service() {
             with(NotificationManagerCompat.from(applicationContext)) {
                 // notificationId is a unique int for each notification that you must define
                 notify(0, builder.build())
+
             }
         }
 
@@ -129,4 +153,6 @@ class NewsNotificationService : Service() {
             notificationManager.createNotificationChannel(channel)
         }
     }
+
+
 }
